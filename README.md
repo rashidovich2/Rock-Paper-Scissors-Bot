@@ -1,3 +1,3 @@
-# Rock-Paper-Scissors-Bot
+<h1 align="center">Rock-Paper-Scissors-Bot</h1>
 
 I will add it later...
