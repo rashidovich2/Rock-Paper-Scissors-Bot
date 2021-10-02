@@ -12,5 +12,6 @@ I created a bot for playing rock, paper, scissors. This time I chose the built-i
 * Install the script
 * Edit file .env
 * [Download Telegram](https://desktop.telegram.org/)
+* Enable Inline Mode for bot
 * Launch the bot!
 
