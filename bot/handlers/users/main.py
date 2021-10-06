@@ -45,14 +45,14 @@ async def stat_command(message: types.Message):
 
 @dp.message_handler(commands=["help"])
 async def help_command(message: types.Message):
-    await dp.bot.send_message(message.chat.id, 'Разработчик: @por0vos1k\n\nПроект на Github - <a href="https://github.com/famaxth/Cuefa-Bot">ссылка</a>', parse_mode='HTML')
+    await dp.bot.send_message(message.chat.id, 'Разработчик: @por0vos1k\n\nПроект на Github - <a href="https://github.com/famaxth/Rock-Paper-Scissors-Bot">ссылка</a>', parse_mode='HTML')
 
 
 @dp.message_handler()
 async def main(message):
     if message.chat.type == 'private':
         if message.text == "Помощь":
-            await dp.bot.send_message(message.chat.id, 'Разработчик: @por0vos1k\n\nПроект на Github - <a href="https://github.com/famaxth/Cuefa-Bot">ссылка</a>', parse_mode='HTML')
+            await dp.bot.send_message(message.chat.id, 'Разработчик: @por0vos1k\n\nПроект на Github - <a href="https://github.com/famaxth/Rock-Paper-Scissors-Bot">ссылка</a>', parse_mode='HTML')
         elif message.text == "Моя статистика":
             try:
                 wins = int(db.return_user_wins_2(message.chat.id))
