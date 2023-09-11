@@ -17,11 +17,8 @@ from loader import dp
 from keyboards.inline.users.inline_key import moves
 
 
-all_users_file = open("joined.txt", "r")
-all_users = set()
-for line in all_users_file:
-    all_users.add(line.strip())
-all_users_file.close()
+with open("joined.txt", "r") as all_users_file:
+    all_users = {line.strip() for line in all_users_file}
 
 
 @dp.message_handler(commands=["stats"])
@@ -50,33 +47,32 @@ async def help_command(message: types.Message):
 
 @dp.message_handler()
 async def main(message):
-    if message.chat.type == 'private':
-        if message.text == "Помощь":
-            await dp.bot.send_message(message.chat.id, 'Разработчик: @por0vos1k\n\nПроект на Github - <a href="https://github.com/famaxth/Rock-Paper-Scissors-Bot">ссылка</a>', parse_mode='HTML')
-        elif message.text == "Моя статистика":
-            try:
-                wins = int(db.return_user_wins_2(message.chat.id))
-                games = int(db.return_user_games(message.chat.id))
-                losses = games - wins
-                keyboard = types.InlineKeyboardMarkup()
-                but_1 = types.InlineKeyboardButton(
-                    text='Поделиться статистикой', switch_inline_query="share_stats")
-                keyboard.add(but_1)
-                if wins == 0:
-                    await dp.bot.send_message(message.chat.id, f"✔️ {games}\n🏆 0 (0%)\n🚫 {losses}", reply_markup=keyboard)
-                else:
-                    procent_wins = (wins / games) * 100
-                    await dp.bot.send_message(message.chat.id, f"✔️ {games}\n🏆 {wins} ({round(procent_wins)}%)\n🚫 {losses}", reply_markup=keyboard)
-            except:
-                pass
-        else:
+    if message.chat.type != 'private':
+        return
+    if message.text == "Помощь":
+        await dp.bot.send_message(message.chat.id, 'Разработчик: @por0vos1k\n\nПроект на Github - <a href="https://github.com/famaxth/Rock-Paper-Scissors-Bot">ссылка</a>', parse_mode='HTML')
+    elif message.text == "Моя статистика":
+        try:
+            wins = int(db.return_user_wins_2(message.chat.id))
+            games = int(db.return_user_games(message.chat.id))
+            losses = games - wins
             keyboard = types.InlineKeyboardMarkup()
             but_1 = types.InlineKeyboardButton(
-                text='Выбрать чат...', switch_inline_query="new")
+                text='Поделиться статистикой', switch_inline_query="share_stats")
             keyboard.add(but_1)
-            await dp.bot.send_message(message.chat.id, "👋 Привет! Нажми на кнопку, если хочешь создать новую игру.", reply_markup=keyboard)
+            if wins == 0:
+                await dp.bot.send_message(message.chat.id, f"✔️ {games}\n🏆 0 (0%)\n🚫 {losses}", reply_markup=keyboard)
+            else:
+                procent_wins = (wins / games) * 100
+                await dp.bot.send_message(message.chat.id, f"✔️ {games}\n🏆 {wins} ({round(procent_wins)}%)\n🚫 {losses}", reply_markup=keyboard)
+        except:
+            pass
     else:
-        pass
+        keyboard = types.InlineKeyboardMarkup()
+        but_1 = types.InlineKeyboardButton(
+            text='Выбрать чат...', switch_inline_query="new")
+        keyboard.add(but_1)
+        await dp.bot.send_message(message.chat.id, "👋 Привет! Нажми на кнопку, если хочешь создать новую игру.", reply_markup=keyboard)
 
 
 @dp.inline_handler()

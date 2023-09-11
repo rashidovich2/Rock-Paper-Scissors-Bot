@@ -72,10 +72,7 @@ def return_info_game(conn, id):
     c = conn.cursor()
     c.execute("SELECT * FROM games WHERE id = ?", (id,))
     all_results = c.fetchall()
-    if str(all_results) == "[]":
-        return None
-    else:
-        return all_results[0]
+    return None if str(all_results) == "[]" else all_results[0]
 
 
 @ensure_connection
